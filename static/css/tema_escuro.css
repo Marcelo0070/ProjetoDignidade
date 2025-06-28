@@ -1,0 +1,167 @@
+/* Geral */
+body.tema-escuro {
+    background: linear-gradient(to bottom, #000000fa, #002770d8); 
+    color: #e0e0e0; 
+}
+body.tema-escuro h1,
+body.tema-escuro h2,
+body.tema-escuro h3,
+body.tema-escuro p {
+    color: #f0f0f0;
+}
+
+body.tema-escuro a {
+    color: #f0f0f0;
+}
+
+body.tema-escuro .sugestoes {
+    background: #2c2f3a;             
+    border: 1px solid #555a6e;        
+    color: #f0f0f0;                    
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); 
+}
+body.tema-escuro .sugestoes li {
+    background-color: transparent;   
+    color: #f0f0f0;
+}
+body.tema-escuro .sugestoes li:hover {
+    background-color: #3c4252;      
+}
+
+/* Index */
+body.tema-escuro .item {
+    background: linear-gradient(to bottom, #1f3b57, #2e5a78); 
+    color: #ffffff; 
+}
+body.tema-escuro .icone {
+    background-color: #121212;
+    color: #f0f0f0;
+}
+
+/* Base */
+body.tema-escuro nav {
+    background-color: #111b33; 
+    border-color: #000; 
+}
+body.tema-escuro nav a,
+body.tema-escuro nav .dropbtn {
+    color: #ffffff;
+}
+body.tema-escuro nav a:hover,
+body.tema-escuro nav .dropbtn:hover {
+    background-color: #264d73; 
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4); 
+}
+body.tema-escuro nav .dropdown-content {
+    background-color: #222; 
+}
+body.tema-escuro nav .dropdown-content a {
+    color: #eee;
+}
+body.tema-escuro nav .dropdown-content a:hover {
+    background-color: #3d5a73; 
+}
+body.tema-escuro footer {
+    background-color: #111b33;
+    color: #cccccc;
+    border-color: #000;
+}
+body.tema-escuro .link-backup {
+    color: #e0e0e0;
+}
+body.tema-escuro .link-backup:hover {
+    color: #ffeb3b;
+}
+body.tema-escuro .logo {
+    filter: drop-shadow(0 0 0 white) drop-shadow(0 0 2px #000);
+}
+
+body.tema-escuro header {
+  background: linear-gradient(to bottom, #0000004d, #012a68); /* Gradiente do preto translúcido para azul */
+}
+
+/* Cadastro */
+body.tema-escuro .form-titulo,
+body.tema-escuro .form-card,
+body.tema-escuro .membro-bloco,
+body.tema-escuro .checkbox-termo {
+    background-color: #2b2b2b;
+    color: #e0e0e0;
+    border-color: #444;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+body.tema-escuro .titulo-familiar {
+    color: #f0f0f0;
+}
+body.tema-escuro .form-card input,
+body.tema-escuro .form-card select,
+body.tema-escuro .form-card textarea,
+body.tema-escuro .membro-bloco input,
+body.tema-escuro .membro-bloco select {
+    background-color: #1e1e1e;
+    color: #f0f0f0;
+    border: 1px solid #555;
+}
+body.tema-escuro .checkbox-termo input[type="checkbox"] {
+    accent-color: #1a73e8;
+}
+body.tema-escuro .btn-enviar,
+body.tema-escuro .btn-adicionar {
+    background-color: #1565c0;
+    color: white;
+}
+body.tema-escuro .btn-enviar:hover,
+body.tema-escuro .btn-adicionar:hover {
+    background-color: #0d47a1;
+}
+body.tema-escuro .link-limpar {
+    color: #a6d4fa;
+}
+body.tema-escuro .link-limpar:hover {
+    color: #f4faff;
+}
+
+/* Lista */
+body.tema-escuro .tabela {
+  background-color: #1f1f2e;
+  color: #e0e0e0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+body.tema-escuro .tabela th {
+  background-color: #0a1e40;
+  color: #ffffff;
+  border-right: 1px solid #2e3c55;
+}
+body.tema-escuro .tabela td {
+  border-bottom: 1px solid #333c55;
+  border-right: 1px solid #333c55;
+}
+body.tema-escuro .tabela tbody tr:nth-child(even) {
+  background-color: #2a3147;
+}
+body.tema-escuro .tabela tbody tr:nth-child(odd) {
+  background-color: #252b3f;
+}
+
+
+/*Perfil */
+body.tema-escuro .perfil-header {
+  background-color: #1c1c1c;             
+  border: 2px solid #375a7f;            
+  border-radius: 8px;
+  padding: 20px;
+}
+
+body.tema-escuro .perfil-dados h2 {
+  color: #e0e0e0;
+}
+
+body.tema-escuro .perfil-dados li {
+  color: #cccccc;
+}
+
+body.tema-escuro .perfil-foto,
+body.tema-escuro .perfil-foto-extra {
+  border-color: #375a7f;                
+  background-color: #2a2a2a;            
+}

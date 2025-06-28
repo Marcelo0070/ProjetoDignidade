@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block titulo %}Cadastro de Visita{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+    <div class="form-titulo">
+        <h2>Nova Visita Domiciliar</h2>
+        <p>Informe os dados da visita realizada ou agendada, vinculando beneficiário e voluntários.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+
+        <!-- Beneficiário -->
+        <div class="form-card">
+            <label for="beneficiario">Beneficiário*:</label>
+            <div class="autocomplete-wrapper" style="position: relative;">
+                <input type="text" id="beneficiario" name="beneficiario" required placeholder="Digite o nome..." autocomplete="off">
+                <ul id="sugestoes_beneficiario" class="sugestoes"></ul>
+            </div>
+            <input type="hidden" id="beneficiario_id" name="beneficiario_id">
+            <input type="hidden" id="beneficiario_tipo" name="beneficiario_tipo">
+        </div>
+
+        <!-- Endereço -->
+        <div class="form-card">
+            <label for="rua_numero">Rua e número*:</label>
+            <input type="text" name="rua_numero" id="rua_numero" required>
+
+            <label for="bairro">Bairro*:</label>
+            <input type="text" name="bairro" id="bairro" required>
+
+            <label for="cidade">Cidade*:</label>
+            <input type="text" name="cidade" id="cidade" required>
+
+            <label for="estado">Estado*:</label>
+            <input type="text" name="estado" id="estado" required>
+        </div>
+
+        <!-- Voluntários -->
+        <div class="form-card">
+            <label>Voluntários*:</label>
+            <div id="lista_voluntarios"></div>
+            <button type="button" class="btn-adicionar" onclick="adicionarVoluntario()">+ Adicionar voluntário</button>
+        </div>
+
+        <!-- Data e observações -->
+        <div class="form-card">
+            <label for="data_visita">Data da visita*:</label>
+            <input type="date" name="data_visita" id="data_visita" required class="data-hoje">
+        </div>
+
+        <div class="form-card">
+            <label for="observacoes">Observações:</label>
+            <textarea name="observacoes" id="observacoes"></textarea>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Registrar Visita</button>
+            <a href="#" onclick="document.querySelector('form').reset(); return false;" class="link-limpar">Limpar formulário</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    configurarAutocompleteBeneficiario({
+        inputId: "beneficiario",
+        sugestoesId: "sugestoes_beneficiario",
+        campoId: "beneficiario_id",
+        campoTipo: "beneficiario_tipo",
+        aoSelecionar: () => {
+            preencherEnderecoDoBeneficiario({
+                idCampo: "beneficiario_id",
+                tipoCampo: "beneficiario_tipo"
+            });
+        }
+    });
+
+    adicionarVoluntario(); // ou carregar os já existentes no editar
+});
+</script>
+
+{% endblock %}

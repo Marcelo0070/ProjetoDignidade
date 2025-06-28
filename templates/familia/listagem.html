@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block titulo %}Lista de Famílias{% endblock %}
+{% block conteudo %}
+
+<div class="lista-container">
+
+  <h1 class="titulo-lista">Lista de Famílias</h1>
+
+  <form method="GET" id="filtro_form" class="formulario-familia">
+  <div class="filtro-linha">
+    <label for="modo"><strong>Visualizar:</strong></label>
+    <select name="modo" class="campo-filtro-select" onchange="this.form.submit()">
+      <option value="responsaveis" {% if filtros.modo == 'responsaveis' %}selected{% endif %}>👤 Famílias por Responsável</option>
+      <option value="todos" {% if filtros.modo == 'todos' %}selected{% endif %}>👪 Todos os Integrantes</option>
+    </select>
+  </div>
+
+  <div class="filtro-linha">
+    <label for="busca"><strong>Buscar por nome:</strong></label>
+    <input type="text" name="busca" class="campo-filtro" value="{{ filtros.busca }}">
+    <button type="submit" class="botao-filtro">🔎 Filtrar</button>
+  </div>
+
+  {% if filtros.modo == "todos" %}
+  <div class="filtro-linha">
+    <label for="filtro_parentesco"><strong>Parentesco:</strong></label>
+    <select name="filtro_parentesco" class="campo-filtro-select" onchange="this.form.submit()">
+      <option value="" {% if filtros.filtro_parentesco in ["", "todos"] %}selected{% endif %}>Todos</option>
+      {% for p in [
+          "Responsável", "Companheiro(a)", "Filho(a)", "Enteado(a)", "Neto(a)",
+          "Pai / Mãe", "Sogro(a)", "Genro / Nora", "Irmão(ã)",
+          "Outro parente (ex: tio, primo, cunhado)",
+          "Não parente (ex: agregado, amigo, pensionista)"
+      ] %}
+  <option value="{{ p.lower() }}" {% if filtros.filtro_parentesco == p.lower() %}selected{% endif %}>{{ p }}</option>
+{% endfor %}
+
+    </select>
+  </div>
+  {% endif %}
+
+  <input type="hidden" name="ordem" id="ordem" value="{{ filtros.ordem }}">
+  <input type="hidden" name="direcao" id="direcao" value="{{ filtros.direcao }}">
+  <input type="hidden" name="colunas" id="colunas" value="{{ filtros.colunas | join(',') }}">
+</form>
+
+
+  {% if filtros.modo == "todos" %}
+  <form method="POST" action="{{ url_for('familia_exportar.exportar_excel') }}" id="form_exportar" class="formulario-exportar">
+    <input type="hidden" name="ids" id="ids_exportar">
+    <input type="hidden" name="colunas" id="colunas_exportar">
+    <button type="button" onclick="selecionarTodos()" class="botao-selecionar">✅ Selecionar todos</button>
+    <button type="button" onclick="exportarParaExcel()" class="botao-exportar">📤 Exportar selecionados</button>
+  </form>
+  {% endif %}
+
+  <div class="filtro-colunas">
+    <strong>Colunas visíveis:</strong><br>
+    {% for campo in ["idade", "documento", "contato", "endereco", "observacoes"] %}
+      <label class="checkbox-coluna">
+        <input type="checkbox" onchange="toggleColuna('{{ campo }}')" id="check_{{ campo }}" {% if campo in filtros.colunas %}checked{% endif %}>
+        {{ campo.capitalize() }}
+      </label>
+    {% endfor %}
+  </div>
+
+  {% if familias %}
+  <table id="tabela_pessoas" class="tabela">
+    <thead>
+      <tr>
+        <th>{% if filtros.modo == "todos" %}<input type="checkbox" onclick="selecionarTodos()">{% endif %}</th>
+        <th><a href="#" onclick="ordenarPor('nome')">Nome {% if filtros.ordem == 'nome' %}{{ '⬆️' if filtros.direcao == 'asc' else '⬇️' }}{% endif %}</a></th>
+        <th><a href="#" onclick="ordenarPor('parentesco')">Parentesco {% if filtros.ordem == 'parentesco' %}{{ '⬆️' if filtros.direcao == 'asc' else '⬇️' }}{% endif %}</a></th>
+        <th><a href="#" onclick="ordenarPor('responsavel')">Responsável {% if filtros.ordem == 'responsavel' %}{{ '⬆️' if filtros.direcao == 'asc' else '⬇️' }}{% endif %}</a></th>
+        <th class="col_idade {% if 'idade' not in filtros.colunas %}hidden{% endif %}"><a href="#" onclick="ordenarPor('idade')">Idade {% if filtros.ordem == 'idade' %}{{ '⬆️' if filtros.direcao == 'asc' else '⬇️' }}{% endif %}</a></th>
+        <th class="col_documento {% if 'documento' not in filtros.colunas %}hidden{% endif %}">Documento</th>
+        <th class="col_contato {% if 'contato' not in filtros.colunas %}hidden{% endif %}">Contato</th>
+        <th class="col_endereco {% if 'endereco' not in filtros.colunas %}hidden{% endif %}">Endereço</th>
+        <th class="col_observacoes {% if 'observacoes' not in filtros.colunas %}hidden{% endif %}">Observações</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for f in familias %}
+      <tr class="{% if filtros.modo == 'responsaveis' %}linha_responsavel{% endif %}" data-id="{{ f.familia_id }}">
+        <td>
+          {% if filtros.modo == "todos" %}
+            <input type="checkbox" name="selecionados" value="{{ f.membro_id if f.parentesco != 'Responsável' else 'r' ~ f.familia_id }}">
+          {% else %}
+            <button type="button" class="botao-toggle" onclick="toggleMembros('{{ f.familia_id }}')">➕</button>
+          {% endif %}
+        </td>
+        <td><a href="{{ url_for('familia_perfil.perfil', familia_id=f.familia_id) }}">{{ f.nome }}</a></td>
+        <td>{{ f.parentesco }}</td>
+        <td><a href="{{ url_for('familia_perfil.perfil', familia_id=f.familia_id) }}">{{ f.responsavel }}</a></td>
+        <td class="col_idade {% if 'idade' not in filtros.colunas %}hidden{% endif %}">{{ f.idade }}</td>
+        <td class="col_documento {% if 'documento' not in filtros.colunas %}hidden{% endif %}">{{ f.documento or "—" }}</td>
+        <td class="col_contato {% if 'contato' not in filtros.colunas %}hidden{% endif %}">{{ f.contato or "—" }}</td>
+        <td class="col_endereco {% if 'endereco' not in filtros.colunas %}hidden{% endif %}">{{ f.endereco or "—" }}</td>
+        <td class="col_observacoes {% if 'observacoes' not in filtros.colunas %}hidden{% endif %}">{{ f.observacoes or "—" }}</td>
+        <td>
+          <a href="{{ url_for('familia_editar.editar_familia', familia_id=f.familia_id) }}" class="link-editar">Editar</a>
+          /
+          <form method="POST" action="{{ url_for('familia_excluir.excluir_familia', familia_id=f.familia_id) }}" class="form-excluir" onsubmit="return confirm('Deseja excluir esta família?');">
+            <button type="submit" class="botao-excluir">Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% if filtros.modo == "responsaveis" %}
+        {% for m in f.membros %}
+        <tr class="membro membro_{{ f.familia_id }} hidden">
+          <td></td>
+          <td>{{ m.nome }}</td>
+          <td>{{ m.parentesco }}</td>
+          <td></td>
+          <td class="col_idade {% if 'idade' not in filtros.colunas %}hidden{% endif %}">{{ m.idade }}</td>
+          <td colspan="5">—</td>
+        </tr>
+        {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% set pagina = filtros.pagina %}
+  {% set total_paginas = filtros.total_paginas %}
+  {% set rota = 'familia_listagem.lista_familias' %}
+  {% set params = {
+    'busca': filtros.busca,
+    'ordem': filtros.ordem,
+    'direcao': filtros.direcao,
+    'colunas': ','.join(filtros.colunas),
+    'modo': filtros.modo,
+    'filtro_parentesco': filtros.filtro_parentesco
+  } %}
+  {% include "utilidade/paginacao.html" with context %}
+  
+  {% else %}
+    <p class="mensagem-vazia">Nenhuma família encontrada.</p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

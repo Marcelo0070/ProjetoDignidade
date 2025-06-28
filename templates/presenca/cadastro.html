@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block titulo %}Registro de Presença{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+    <div class="form-titulo">
+        <h2>Registro de Presença</h2>
+        <p>Adicione os beneficiários presentes em uma data específica.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+
+        <!-- Data -->
+        <div class="form-card">
+            <label for="data_presenca">Data da presença*:</label>
+            <input id="data_presenca" name="data" type="date" required class="data-hoje">
+        </div>
+
+        <!-- Adição de beneficiário com autocomplete -->
+        <div class="form-card">
+            <label for="beneficiario">Adicionar beneficiário:</label>
+            <div class="autocomplete-wrapper" style="display: flex; gap: 8px; align-items: center; position: relative;">
+                <input type="text" id="beneficiario" placeholder="Digite o nome..." autocomplete="off">
+                <button type="button" id="btn-adicionar" class="btn-adicionar">➕</button>
+                <ul id="sugestoes_beneficiario" class="sugestoes"></ul>
+            </div>
+            <input type="hidden" id="beneficiario_id" name="beneficiario_id">
+            <input type="hidden" id="beneficiario_tipo" name="beneficiario_tipo">
+        </div>
+
+        <!-- Tabela de presença -->
+        <div class="form-card">
+            <label>Lista de presentes:</label>
+            <table id="lista_presenca" class="tabela">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <input type="hidden" name="presentes_json" id="presentes_json">
+        </div>
+
+        <div style="margin-bottom: 5px; text-align: right;">
+            <a href="#" onclick="limparListaPresenca(); return false;" class="link-limpar">Limpar lista</a>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar Presença</button>
+            <a href="#" onclick="document.querySelector('form').reset(); return false;" class="link-limpar">Limpar formulário</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // Ativa o autocomplete do beneficiário
+    configurarAutocompleteBeneficiario({
+        inputId: "beneficiario",
+        sugestoesId: "sugestoes_beneficiario",
+        campoId: "beneficiario_id",
+        campoTipo: "beneficiario_tipo"
+    });
+
+    // Adiciona beneficiário à lista de presença
+    document.getElementById("btn-adicionar").addEventListener("click", () => {
+        adicionarPresenca({
+            nome: document.getElementById("beneficiario").value,
+            id: document.getElementById("beneficiario_id").value,
+            tipo: document.getElementById("beneficiario_tipo").value
+        });
+
+        // Limpa campos
+        document.getElementById("beneficiario").value = "";
+        document.getElementById("beneficiario_id").value = "";
+        document.getElementById("beneficiario_tipo").value = "";
+        document.getElementById("sugestoes_beneficiario").innerHTML = "";
+    });
+});
+</script>
+
+{% endblock %}

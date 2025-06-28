@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block titulo %}Lista de Voluntários{% endblock %}
+
+{% block conteudo %}
+<div class="lista-container">
+
+  <h1 class="titulo-lista">Lista de Voluntários</h1>
+
+  <form method="GET" id="filtro_form" class="formulario-filtro">
+    <div class="filtro-linha">
+        <label for="busca" class="label-filtro">Buscar:</label>
+        <input type="text" id="busca" name="busca" class="campo-filtro" value="{{ filtros.busca }}">
+    </div>
+
+    <div class="filtro-linha">
+        <label for="data_inicio">Nascimento de:</label>
+        <input type="date" name="data_inicio" value="{{ filtros.data_inicio }}" class="campo-filtro">
+        <label for="data_fim">até:</label>
+        <input type="date" name="data_fim" value="{{ filtros.data_fim }}" class="campo-filtro">
+        <input type="hidden" name="ordem" id="ordem" value="{{ filtros.ordem }}">
+        <input type="hidden" name="direcao" id="direcao" value="{{ filtros.direcao }}">
+        <input type="hidden" name="colunas" id="colunas" value="{{ filtros.colunas | join(',') }}">
+
+        <button type="submit" class="botao-filtro">🔎 Filtrar</button>
+    </div>
+  </form>
+
+  <div class="filtro-colunas">
+    <strong>Colunas visíveis:</strong><br>
+    {% for campo in ["contato", "data_nascimento"] %}
+      <label class="checkbox-coluna">
+        <input type="checkbox" onchange="toggleColuna('{{ campo }}')" id="check_{{ campo }}" {% if campo in filtros.colunas %}checked{% endif %}>
+        {{ campo.replace('_', ' ').capitalize() }}
+      </label>
+    {% endfor %}
+  </div>
+
+  <form id="form_exportar" method="POST" action="{{ url_for('voluntarios_exportar.exportar_excel') }}" class="formulario-exportar">
+    <input type="hidden" name="ids" id="ids_exportar">
+    <input type="hidden" name="colunas" id="colunas_exportar">
+    <button type="button" onclick="selecionarTodos()" class="botao-selecionar">✅ Selecionar todos</button>
+    <button type="button" onclick="exportarParaExcel()" class="botao-exportar">📤 Exportar</button>
+  </form>
+
+  {% if voluntarios %}
+  <table id="tabela_pessoas" class="tabela">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <a href="#" onclick="ordenarPor('nome')">
+            Nome {% if filtros.ordem == 'nome' %}{{ '⬆️' if filtros.direcao == "asc" else '⬇️' }}{% endif %}
+          </a>
+        </th>
+        <th class="col_contato {% if 'contato' not in filtros.colunas %}hidden{% endif %}">Contato</th>
+        <th class="col_data_nascimento {% if 'data_nascimento' not in filtros.colunas %}hidden{% endif %}">
+          <a href="#" onclick="ordenarPor('data_nascimento')">
+            Data de nascimento
+            {% if filtros.ordem == 'data_nascimento' %}{{ '⬆️' if filtros.direcao == "asc" else '⬇️' }}{% endif %}
+          </a>
+        </th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in voluntarios %}
+      <tr>
+        <td><input type="checkbox" name="selecionados" value="{{ v.id }}"></td>
+        <td>{{ v.nome }}</td>
+        <td class="col_contato {% if 'contato' not in filtros.colunas %}hidden{% endif %}">{{ v.contato or "—" }}</td>
+        <td class="col_data_nascimento {% if 'data_nascimento' not in filtros.colunas %}hidden{% endif %}">{{ v.data_nascimento or "—" }}</td>
+        <td>
+          <a href="{{ url_for('voluntarios_editar.editar_voluntarios', voluntario_id=v.id) }}" class="link-editar">Editar</a>
+          /
+          <form method="POST" action="{{ url_for('voluntarios_excluir.excluir_voluntarios', voluntario_id=v.id) }}" class="form-excluir" onsubmit="return confirm('Deseja excluir este voluntário?');">
+            <button type="submit" class="botao-excluir">Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% set pagina = filtros.pagina %}
+  {% set total_paginas = filtros.total_paginas %}
+  {% set rota = 'voluntarios_listagem.listar_voluntarios' %}
+  {% set params = {
+    'busca': filtros.busca,
+    'data_inicio': filtros.data_inicio,
+    'data_fim': filtros.data_fim,
+    'ordem': filtros.ordem,
+    'direcao': filtros.direcao,
+    'colunas': ','.join(filtros.colunas)
+  } %}
+  {% include "utilidade/paginacao.html" with context %}
+
+  {% else %}
+    <p class="mensagem-vazia">Nenhum voluntário encontrado.</p>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+

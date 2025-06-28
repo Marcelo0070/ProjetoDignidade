@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<div class="perfil-container">
+  <!-- 👨‍👩‍👧 Cabeçalho do Responsável da Família -->
+  <div class="perfil-header">
+    <div class="perfil-dados">
+      <h2>{{ familia.responsavel }}</h2>
+      <ul>
+        <li><strong>Documento:</strong> {{ familia.documento }}</li>
+        <li><strong>Data de Nascimento:</strong> {{ familia.data_nascimento }}</li>
+        <li><strong>Contato:</strong> {{ familia.contato }}</li>
+        <li><strong>Endereço:</strong> {{ familia.rua_numero }}, {{ familia.bairro }} - {{ familia.cidade }}/{{ familia.estado }}</li>
+        <li><strong>Observações:</strong> {{ familia.observacoes }}</li>
+      </ul>
+      <a class="link-editar" href="{{ url_for('familia_editar.editar_familia', familia_id=familia.id) }}">✏️ Editar Cadastro</a>
+    </div>
+  </div>
+
+  <!-- 🔽 MEMBROS DA FAMÍLIA -->
+  <h3 data-colapsar="secao_membros" class="titulo-colapsar">Membros da Família <span id="icone_membros">[+]</span></h3>
+  <div id="secao_membros" class="colapsavel">
+    {% if membros %}
+    <table class="tabela">
+      <thead><tr><th>Nome</th><th>Parentesco</th></tr></thead>
+      <tbody>
+        {% for m in membros %}
+        <tr>
+          <td>{{ m[0] }}</td>
+          <td>{{ m[1] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="mensagem-vazia">Nenhum membro registrado.</p>
+    {% endif %}
+  </div>
+
+
+  <!-- 🔽 VISITAS -->
+  <h3 data-colapsar="secao_visitas" class="titulo-colapsar">Visitas Realizadas <span id="icone_visitas">[+]</span></h3>
+  <div id="secao_visitas" class="colapsavel">
+    {% if visitas %}
+    <table class="tabela">
+      <thead><tr><th>Data</th><th>Voluntário</th><th>Endereço</th><th>Observações</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for v in visitas %}
+      <tr>
+        <td>{{ v[1] }}</td>
+        <td>{{ v[3] or 'Não informado' }}</td>
+        <td>{{ v[2] }}</td>
+        <td>{{ v[4] }}</td>
+        <td>
+          <a class="link-editar" href="{{ url_for('visitas_editar.editar_visita', id=v[0]) }}">Editar</a>
+          <a class="botao-excluir" href="{{ url_for('visitas_excluir.excluir_visita', id=v[0]) }}" onclick="return confirm('Deseja excluir esta visita?')">Excluir</a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="mensagem-vazia">Nenhuma visita registrada.</p>
+    {% endif %}
+  </div>
+
+  <!-- 🔽 DOAÇÕES -->
+  <h3 data-colapsar="secao_doacoes" class="titulo-colapsar">Doações Recebidas <span id="icone_doacoes">[+]</span></h3>
+  <div id="secao_doacoes" class="colapsavel">
+    {% if doacoes %}
+    <table class="tabela">
+      <thead><tr><th>Data</th><th>Tipo</th><th>Origem</th><th>Observações</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for doacao in doacoes %}
+      <tr>
+        <td>{{ doacao.data }}</td>
+        <td>{{ doacao.tipo }}</td>
+        <td>{{ doacao.origem }}</td>
+        <td>{{ doacao.observacoes }}</td>
+        <td>
+          <a class="link-editar" href="{{ doacao.url_editar }}">Editar</a>
+          <a class="botao-excluir" href="{{ url_for('doacao_excluir.excluir_doacao', doacao_id=doacao.id) }}" onclick="return confirm('Excluir esta doação?')">Excluir</a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="mensagem-vazia">Nenhuma doação registrada.</p>
+    {% endif %}
+  </div>
+
+  <!-- 🔽 PRESENÇAS -->
+  <h3 data-colapsar="secao_presencas" class="titulo-colapsar">Presenças <span id="icone_presencas">[+]</span></h3>
+  <div id="secao_presencas" class="colapsavel">
+    <form method="get" class="formulario-filtro">
+      <label class="label-filtro">Data Inicial:</label>
+      <input type="date" name="data_inicio" class="campo-filtro">
+      <label class="label-filtro">Data Final:</label>
+      <input type="date" name="data_fim" class="campo-filtro">
+      <button type="submit" class="botao-filtro">Filtrar</button>
+    </form>
+
+    {% if presencas %}
+    <table class="tabela">
+      <thead><tr><th>Data</th></tr></thead>
+      <tbody>
+      {% for p in presencas %}
+      <tr>
+        <td>
+          <a class="link-editar" href="{{ url_for('presenca_editar.editar_presenca', data=p.data_original) }}">
+            {{ p.data_formatada }}
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="mensagem-vazia">Nenhuma presença registrada.</p>
+    {% endif %}
+  </div>
+
+  <!-- 🔽 ATIVIDADES -->
+  <h3 data-colapsar="secao_atividades" class="titulo-colapsar titulo-final">Atividades Participadas <span id="icone_atividades">[+]</span></h3>
+  <div id="secao_atividades" class="colapsavel">
+    {% if atividades %}
+    <table class="tabela">
+      <thead><tr><th>Data</th><th>Atividade</th><th>Tema</th><th>Responsável</th><th>Observações</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for a in atividades %}
+      <tr>
+        <td>{{ a[2] }}</td>
+        <td>{{ a[1] }}</td>
+        <td>{{ a[3] }}</td>
+        <td>{{ a[4] }}</td>
+        <td>{{ a[5] }}</td>
+        <td>
+          <a class="link-editar" href="{{ url_for('atividade_editar.editar_atividade', atividade_id=a[0]) }}">Editar</a>
+          <a class="botao-excluir" href="{{ url_for('atividade_excluir.excluir_atividade', atividade_id=a[0]) }}" onclick="return confirm('Excluir esta atividade?')">Excluir</a>
+        </td>
+      </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="mensagem-vazia">Nenhuma atividade registrada.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{% endblock %}

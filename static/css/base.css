@@ -1,0 +1,182 @@
+/* 📌 Barra de navegação principal com 7 colunas */
+nav {
+    display: grid; /* Usa layout em grade (Grid CSS) */
+    grid-template-columns: repeat(7, 1fr); /* Cria exatamente 7 colunas iguais */
+    background-color: #052e6d; /* Fundo azul escuro */
+    padding: 6px 20px; /* Espaço interno vertical e horizontal */
+    font-size: 16px; /* Tamanho base da fonte */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Sombra para profundidade */
+    border: 1.5px solid #040131;
+    align-items: center; /* Centraliza verticalmente os itens nas células */
+}
+
+/* 📁 Cada item de menu ou grupo dropdown */
+nav .dropdown {
+    position: relative; /* Permite posicionar o submenu abaixo */
+    width: 100%; /* Ocupa toda a largura da célula (1fr) */
+    text-align: left; /* Centraliza o texto */
+    border-left: 1px solid rgba(255, 255, 255, 0.2); /* Divisor sutil entre colunas */
+}
+
+/* 🔗 Links principais e botões */
+nav a,
+nav .dropbtn {
+    color: #fff; /* Texto branco */
+    padding: 8px 12px; /* Espaço interno */
+    font-weight: bold;
+    text-decoration: none;
+    display: block; /* Ocupa a área completa do elemento pai */
+    transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* 🖱️ Hover nos itens principais */
+nav a:hover,
+nav .dropbtn:hover {
+    background-color: #1976d2; /* Azul mais claro no hover */
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Leve destaque ao passar o mouse */
+}
+
+/* 📂 Submenu (dropdown) oculto por padrão */
+nav .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* Fica abaixo do botão pai */
+    left: 0; /* Alinhado com o início da célula */
+    width: 100%; /* Mesma largura da célula pai */
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* 📄 Links dentro do submenu */
+nav .dropdown-content a {
+    color: #0d47a1;
+    padding: 10px 12px;
+    display: block;
+    text-decoration: none;
+}
+
+/* 🖱️ Hover nos links do submenu */
+nav .dropdown-content a:hover {
+    background-color: #83aefd; /* Destaque azul claro no hover */
+}
+
+/* 📂 Exibe o submenu ao passar o mouse */
+nav .dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* 🌙 Botão para alternar entre modo claro/escuro (ícone no canto superior direito) */
+#toggle-dark {
+    position: absolute;       /* Posicionado de forma fixa dentro do header */
+    top: 10px;                /* Distância do topo da tela */
+    right: 20px;              /* Distância da borda direita */
+    font-size: 24px;          /* Tamanho do ícone */
+    background: none;         /* Remove qualquer fundo */
+    border: none;             /* Sem borda visual */
+    color: white;             /* Cor do ícone (branco) */
+    cursor: pointer;          /* Cursor de mãozinha ao passar o mouse */
+    z-index: 1000;            /* Garante que fique sobre outros elementos */
+    transition: transform 0.2s ease; /* Suaviza o efeito de escala */
+}
+
+/* 🔁 Efeito de escala ao passar o mouse no botão de tema */
+#toggle-dark:hover {
+    transform: scale(1.2);    /* Aumenta o ícone levemente */
+}
+
+/* 🔠 Botão para alternar o tamanho da fonte (ícone abaixo do botão de tema) */
+#botao-fonte {
+    position: absolute;       /* Posicionado de forma absoluta no header */
+    top: 100px;               /* Distância maior do topo (fica mais abaixo) */
+    right: 20px;              /* Alinhado com o botão de tema à direita */
+    font-size: 30px;          /* Ícone maior para destaque */
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+/* 🔁 Efeito de escala ao passar o mouse no botão de fonte */
+#botao-fonte:hover {
+    transform: scale(1.2);    /* Aumenta o ícone levemente */
+}
+
+/* 🔷 Cabeçalho principal com logo centralizada e gradiente leve */
+header {
+    display: flex; /* Organiza os elementos lado a lado */
+    align-items: center; /* Centraliza verticalmente os itens */
+    justify-content: center; /* Centraliza horizontalmente o conteúdo */
+    padding: 10px 30px; /* Espaçamento interno */
+    background: linear-gradient(to bottom, #f0f33a4d, #2d77e6); /* Gradiente do amarelo translúcido para azul */
+}
+
+/* 🖼️ Imagem da logo com sombra que respeita o recorte PNG */
+.logo {
+    height: 150px; /* Altura fixa da imagem */
+    margin-right: 10px; /* Espaço à direita da logo */
+    margin-left: 0; /* Alinha à esquerda sem espaço */
+    padding: 0;
+    display: block; /* Evita espaços extras como inline-block */
+    filter: drop-shadow(0 0 0 white) drop-shadow(0 0 2px black); /* Sombra ao redor do conteúdo visível do PNG */
+}
+
+/* 📦 Agrupamento da logo com o texto do título */
+.bloco-esquerda {
+    display: flex; /* Layout em linha */
+    align-items: center; /* Centraliza os itens verticalmente */
+    gap: 10px; /* Espaço entre logo e título */
+}
+
+/* 📌 Rodapé com sombra e borda, texto centralizado, e base para conteúdo posicionado */
+footer {
+    position: relative; /* Necessário para permitir elementos internos com position absolute */
+    background: #052e6d; /* Azul escuro como fundo do rodapé */
+    text-align: center; /* Centraliza o texto */
+    padding: 20px; /* Espaço interno */
+    font-size: 16px; /* Tamanho do texto */
+    color: #cccaca; /* Cor de texto clara */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25); /* Sombra ao redor para profundidade */
+    border: 1.1px solid #080353; /* Borda sutil mais escura */
+}
+
+/* 📦 Links de backup no canto inferior direito */
+.link-backup-area {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* 🎯 Estilo dos links */
+.link-backup {
+    color: #fff; /* Branco padrão */
+    text-decoration: underline;
+    font-weight: bold;
+    margin: 0 5px;
+    transition: color 0.2s ease;
+}
+
+/* 🖱️ Hover: amarelo */
+.link-backup:hover {
+    color: #ffeb3b;
+    text-decoration: none;
+}
+
+/*  Mensagem de Alerta no registro de cadastro */
+.alerta-sucesso {
+    background-color: #dff0d8;
+    color: #2e7d32;
+    border: 1px solid #c3e6cb;
+    padding: 12px 20px;
+    margin: 20px auto;
+    border-radius: 6px;
+    max-width: 600px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}

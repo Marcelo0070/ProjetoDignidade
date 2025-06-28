@@ -1,0 +1,110 @@
+/* 🌟 Estrutura geral */
+.perfil-container {
+  max-width: 1000px;
+  margin: 30px auto;
+  padding: 20px;
+  background: #709de0ad; /* azul translúcido */
+  border: 1px solid #185ec7c9; /* borda azul escura destacada */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(13, 71, 161, 0.3); /* sombra mais profunda em azul */
+  font-family: Arial, sans-serif;
+}
+
+
+/* 🧑 Cabeçalho */
+.perfil-header {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 2px solid #90caf9;
+  border-radius: 8px;
+  background-color: #f5faff; /* Fundo levemente azulado para destacar */
+}
+
+
+.perfil-fotos {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+}
+
+.perfil-foto,
+.perfil-foto-extra {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.perfil-foto {
+  border: 2px solid #ccc;
+}
+
+.perfil-foto-extra {
+  border: 2px dashed #aaa;
+}
+
+.perfil-dados {
+  flex: 1;
+}
+
+.perfil-dados h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #444;
+}
+
+.perfil-dados ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.perfil-dados li {
+  margin-bottom: 6px;
+  color: #555;
+}
+
+/* 🔵 Títulos clicáveis colapsáveis – visual azul e com borda */
+.titulo-colapsar {
+  cursor: pointer;
+  user-select: none;
+  font-size: 18px;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  background-color: #0d47a1;
+  color: white;
+  border-radius: 6px;
+  border: 2px solid #0d47a1;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.titulo-colapsar:hover {
+  background-color: #08306b;
+  color: #e3f2fd;
+}
+
+.colapsavel {
+  display: none;
+  transition: all 0.3s ease;
+}
+
+.colapsavel.ativa {
+  display: block;
+}
+
+/* 🧷 Responsividade básica */
+@media (max-width: 768px) {
+  .perfil-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .perfil-fotos {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

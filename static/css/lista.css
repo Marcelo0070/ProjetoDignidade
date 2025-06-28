@@ -1,0 +1,253 @@
+/* Garante que todo o container principal da lista fique alinhado corretamente */
+.lista-container {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.tabela {
+  width: 100%;
+  margin: 10px auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 1rem;
+  color: inherit;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  background-color: white;
+}
+
+/* Cabeçalho */
+.tabela th {
+  background-color: #0d47a1;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  text-align: left;
+  border-right: 1px solid #ffffff40;
+}
+
+.tabela th a:hover {
+  text-decoration: underline;
+  color: #ffffff; /* branco puro ao passar o mouse */
+}
+
+.tabela th a {
+  color: #e3f2fd; /* branco levemente azulado */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Células */
+.tabela td {
+  padding: 10px;
+  border-bottom: 1px solid #0603b42f;
+  border-right: 1px solid #0603b42f;
+}
+
+/* Linhas alternadas */
+.tabela tbody tr:nth-child(even) {
+  background-color: #e3f2fd;
+}
+.tabela tbody tr:nth-child(odd) {
+  background-color: #f8fbff;
+}
+
+/* Esconder colunas dinâmicas */
+.hidden {
+  display: none !important;
+}
+
+/* Título alinhado com o container */
+.titulo-lista {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  padding-left: 0;
+}
+
+/* Formulários de busca e exportação */
+.formulario-filtro {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 5px -15px;
+  width: 100%;
+}
+
+.formulario-exportar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  margin-left: 0;
+}
+
+.label-filtro {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.campo-filtro {
+  padding: 5px 8px;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.botao-filtro,
+.botao-selecionar,
+.botao-exportar {
+  padding: 6px 12px;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.botao-filtro {
+  background-color: #1976d2;
+  color: white;
+}
+
+.botao-selecionar {
+  background-color: #00897b;
+  color: white;
+}
+
+.botao-exportar {
+  background-color: #388e3c;
+  color: white;
+}
+
+.botao-toggle {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  color: #0d47a1;
+}
+
+.botao-toggle:hover {
+  background-color: #e3f2fd;
+  border-radius: 4px;
+}
+
+/* Filtros de colunas */
+.filtro-colunas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 20px;
+}
+
+/* ✅ CHECKBOX DE COLUNAS */
+.checkbox-coluna {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 1rem; 
+  margin-bottom: 5px;
+  white-space: nowrap;
+}
+
+/* Ações */
+.link-editar {
+  color: #1565c0;
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.link-editar:hover {
+  text-decoration: underline;
+}
+
+.form-excluir {
+  display: inline;
+}
+
+.botao-excluir {
+  background-color: #e53935;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 0;
+}
+
+.botao-excluir:hover {
+  background-color: #c62828;
+}
+
+/* Paginação */
+.paginacao {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.paginacao a {
+  margin: 0 6px;
+  text-decoration: none;
+  color: #0d47a1;
+  font-weight: bold;
+}
+
+.paginacao strong {
+  margin: 0 6px;
+  font-weight: bold;
+  color: #0d47a1;
+}
+
+/* Nenhum resultado */
+.mensagem-vazia {
+  margin-top: 20px;
+  font-style: italic;
+  color: #777;
+}
+
+/* Container do formulário de filtro da família */
+.formulario-familia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+/* Linhas de filtro separadas */
+.filtro-linha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+/* Campos padrão e botão dentro das linhas */
+.filtro-linha select,
+.filtro-linha input {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filtro-linha button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filtro-linha button:hover {
+  background-color: #0f5bb5;
+}

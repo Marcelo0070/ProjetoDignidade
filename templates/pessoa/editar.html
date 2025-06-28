@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block titulo %}Editar Pessoa{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+
+    <div class="form-titulo">
+        <h2>Editar Cadastro da Pessoa Atendida</h2>
+        <p>Atualize os dados da pessoa atendida, incluindo informações de contato, endereço e familiares, quando aplicável.</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" autocomplete="off">
+
+        <!-- Dados principais -->
+        <div class="form-card"><label for="nome">Nome completo*:</label><input id="nome" name="nome" type="text" required value="{{ pessoa.nome }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="apelido">Apelido:</label><input id="apelido" name="apelido" type="text" value="{{ pessoa.apelido }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="nome_mae">Nome da mãe:</label><input id="nome_mae" name="nome_mae" type="text" value="{{ pessoa.nome_mae }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="documento">Documento:</label><input id="documento" name="documento" type="text" value="{{ pessoa.documento }}"></div>
+        <div class="form-card"><label for="data_nascimento">Data de nascimento*:</label><input id="data_nascimento" name="data_nascimento" type="date" required value="{{ pessoa.data_nascimento }}" onblur="verificarIdade()"></div>
+
+        <!-- Endereço e contato -->
+        <div class="form-card"><label for="rua_numero">Rua / Número:</label><input id="rua_numero" name="rua_numero" type="text" value="{{ pessoa.rua_numero }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="bairro">Bairro:</label><input id="bairro" name="bairro" type="text" value="{{ pessoa.bairro }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="cidade">Cidade:</label><input id="cidade" name="cidade" type="text" value="{{ pessoa.cidade }}" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="estado">Estado:</label><input id="estado" name="estado" type="text" value="{{ pessoa.estado }}"></div>
+        <div class="form-card"><label for="dependencia">Dependência:</label><input id="dependencia" name="dependencia" type="text" value="{{ pessoa.dependencia }}"></div>
+        <div class="form-card"><label for="contato">Contato:</label><input id="contato" name="contato" type="text" maxlength="15" value="{{ pessoa.contato }}"></div>
+
+        <!-- Dados complementares -->
+        <div class="form-card"><label for="naturalidade">Naturalidade:</label><input id="naturalidade" name="naturalidade" type="text" value="{{ pessoa.naturalidade }}"></div>
+        <div class="form-card"><label for="tamanho_roupa">Tamanho de roupa:</label><input id="tamanho_roupa" name="tamanho_roupa" type="text" value="{{ pessoa.tamanho_roupa }}"></div>
+        <div class="form-card"><label for="aptidoes">Aptidões:</label><input id="aptidoes" name="aptidoes" type="text" value="{{ pessoa.aptidoes }}"></div>
+        <div class="form-card"><label for="alergia">Alergia:</label><input id="alergia" name="alergia" type="text" value="{{ pessoa.alergia }}"></div>
+        <div class="form-card"><label for="saude">Saúde:</label><input id="saude" name="saude" type="text" value="{{ pessoa.saude }}"></div>
+        <div class="form-card"><label for="alfabetizacao">Alfabetização:</label><input id="alfabetizacao" name="alfabetizacao" type="text" value="{{ pessoa.alfabetizacao }}"></div>
+
+        <!-- Fotos -->
+        {% if pessoa.foto or pessoa.foto_extra %}
+        <div class="form-card">
+            <label>Fotos atuais:</label><br>
+            <div style="display: flex; gap: 20px; align-items: center;">
+                {% if pessoa.foto %}
+                    <div>
+                        <img src="{{ url_for('static', filename=pessoa.foto) }}" width="150" style="border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        <p style="text-align: center; font-size: 0.9em;">Principal</p>
+                    </div>
+                {% endif %}
+                {% if pessoa.foto_extra %}
+                    <div>
+                        <img src="{{ url_for('static', filename=pessoa.foto_extra) }}" width="150" style="border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+                        <p style="text-align: center; font-size: 0.9em;">Adicional</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        <div class="form-card"><label for="foto">Nova foto:</label><input id="foto" name="foto" type="file"></div>
+        <div class="form-card"><label for="foto_extra">Foto adicional:</label><input id="foto_extra" name="foto_extra" type="file"></div>
+
+        <!-- Observações -->
+        <div class="form-card"><label for="observacoes">Observações:</label><textarea id="observacoes" name="observacoes">{{ pessoa.observacoes }}</textarea></div>
+
+        <!-- Familiares -->
+        <div class="form-card">
+            <label>Familiares:</label>
+            <div id="membros"></div>
+            <button type="button" class="btn-adicionar" onclick="adicionarMembro()">+ Adicionar familiar</button>
+        </div>
+
+        <!-- Termo e datas -->
+        <div class="form-card"><label for="primeiro_dia">Primeiro dia:</label><input id="primeiro_dia" name="primeiro_dia" type="date" value="{{ pessoa.primeiro_dia }}"></div>
+        <div class="form-card checkbox-termo"><input type="checkbox" name="termo_imagem" id="termo_imagem" {% if pessoa.termo_imagem %}checked{% endif %}><label for="termo_imagem">Aceito o uso de imagem</label></div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar alterações</button>
+            <a href="{{ url_for('pessoa_listagem.lista_pessoas') }}" class="link-limpar">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<script id="familiares-data" type="application/json">
+    {{ pessoa.familiares | tojson }}
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const json = document.getElementById("familiares-data").textContent;
+        const familiaresExistentes = JSON.parse(json);
+
+        if (Array.isArray(familiaresExistentes)) {
+            familiaresExistentes.forEach((f, i) => {
+                adicionarMembro(i, f.nome, f.parentesco, f.data_nascimento);
+            });
+        }
+    });
+</script>
+
+{% endblock %}

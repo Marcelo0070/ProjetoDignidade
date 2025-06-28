@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block titulo %}Cadastro de Voluntário{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+    <div class="form-titulo">
+        <h2>Cadastro de Voluntário</h2>
+        <p>Preencha os dados básicos do voluntário para registro no sistema.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+
+        <!-- Dados do voluntário -->
+        <div class="form-card"><label for="nome">Nome completo*:</label><input id="nome" name="nome" type="text" required onblur="aplicarCapitalizacao(this)" value="{{ dados.nome if dados else '' }}"></div>
+        <div class="form-card"><label for="contato">Contato*:</label><input id="contato" name="contato" type="text" required value="{{ dados.contato if dados else '' }}"></div>
+        <div class="form-card"><label for="data_nascimento">Data de nascimento:</label><input id="data_nascimento" name="data_nascimento" type="date" value="{{ dados.data_nascimento if dados else '' }}" onblur="verificarIdade()"></div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar Voluntário</button>
+            <a href="#" onclick="document.querySelector('form').reset(); return false;" class="link-limpar">Limpar formulário</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+

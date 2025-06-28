@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block titulo %}Cadastro de Pessoa{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+    <div class="form-titulo">
+        <h2>Cadastro de Pessoa Atendida</h2>
+        <p>Preencha os dados da pessoa atendida, incluindo informações de contato, endereço e familiares, quando aplicável.</p>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" autocomplete="off">
+
+        <!-- Dados principais -->
+        <div class="form-card"><label for="nome">Nome completo*:</label><input id="nome" name="nome" type="text" required onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="apelido">Apelido:</label><input id="apelido" name="apelido" type="text" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="nome_mae">Nome da mãe:</label><input id="nome_mae" name="nome_mae" type="text" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="documento">Documento:</label><input id="documento" name="documento" type="text"></div>
+        <div class="form-card"><label for="data_nascimento">Data de nascimento*:</label><input id="data_nascimento" name="data_nascimento" type="date" required onblur="verificarIdade()"></div>
+
+        <!-- Endereço e contato -->
+        <div class="form-card"><label for="rua_numero">Rua / Número:</label><input id="rua_numero" name="rua_numero" type="text" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="bairro">Bairro:</label><input id="bairro" name="bairro" type="text" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="cidade">Cidade:</label><input id="cidade" name="cidade" type="text" onblur="aplicarCapitalizacao(this)"></div>
+        <div class="form-card"><label for="estado">Estado:</label><input id="estado" name="estado" type="text"></div>
+        <div class="form-card"><label for="dependencia">Dependência:</label><input id="dependencia" name="dependencia" type="text"></div>
+        <div class="form-card"><label for="contato">Contato:</label><input id="contato" name="contato" type="text" maxlength="15"></div>
+
+        <!-- Dados complementares -->
+        <div class="form-card"><label for="naturalidade">Naturalidade:</label><input id="naturalidade" name="naturalidade" type="text"></div>
+        <div class="form-card"><label for="tamanho_roupa">Tamanho de roupa:</label><input id="tamanho_roupa" name="tamanho_roupa" type="text"></div>
+        <div class="form-card"><label for="aptidoes">Aptidões:</label><input id="aptidoes" name="aptidoes" type="text"></div>
+        <div class="form-card"><label for="alergia">Alergia:</label><input id="alergia" name="alergia" type="text"></div>
+        <div class="form-card"><label for="saude">Saúde:</label><input id="saude" name="saude" type="text"></div>
+        <div class="form-card"><label for="alfabetizacao">Alfabetização:</label><input id="alfabetizacao" name="alfabetizacao" type="text"></div>
+
+        <!-- Fotos -->
+        <div class="form-card"><label for="foto">Foto:</label><input id="foto" name="foto" type="file"></div>
+        <div class="form-card"><label for="foto_extra">Foto adicional:</label><input id="foto_extra" name="foto_extra" type="file"></div>
+
+        <!-- Observações -->
+        <div class="form-card"><label for="observacoes">Observações:</label><textarea id="observacoes" name="observacoes"></textarea></div>
+
+        <!-- Familiares -->
+        <div class="form-card">
+            <label>Familiares:</label>
+            <div id="membros"></div>
+            <button type="button" class="btn-adicionar" onclick="adicionarMembro()">+ Adicionar familiar</button>
+        </div>
+
+        <!-- Termo e datas -->
+        <div class="form-card"><label for="primeiro_dia">Primeiro dia:</label><input id="primeiro_dia" name="primeiro_dia" type="date" class="data-hoje"></div>
+        <div class="form-card checkbox-termo"><input type="checkbox" name="termo_imagem" id="termo_imagem" ><label for="termo_imagem">Aceito o uso de imagem</label></div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Enviar</button>
+            <a href="#" onclick="document.querySelector('form').reset(); return false;" class="link-limpar">Limpar formulário</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

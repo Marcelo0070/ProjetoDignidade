@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Projeto Dignidade{% endblock %}</title>
+
+    <!-- 🧩 CSS Principal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/geral.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tema_escuro.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonte_grande.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lista.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil.css') }}">
+
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+    <!-- 🔝 Cabeçalho com logo e ações -->
+    <header>
+        <div class="bloco-esquerda">
+            <img src="{{ url_for('static', filename='imagens_sistema/logo-dia.png') }}" alt="Logo" class="logo">
+            <div class="titulo-central">
+                <h1>Projeto Dignidade</h1>
+                <p>Sistema Local de Gestão Social</p>
+            </div>
+        </div>
+
+        <div class="acoes-topo">
+            <button id="toggle-dark" onclick="alternarModo()" title="Alternar modo">🌞</button>
+            <button id="botao-fonte" title="Alternar tamanho da fonte">A</button>
+        </div>
+    </header>
+
+    <!-- 🧭 Navegação principal -->
+    <nav>
+        <div class="dropdown">
+            <a href="{{ url_for('comum.home') }}">🏠 Início</a>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">👤 Cadastro</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('pessoa_cadastro.cadastrar_pessoa') }}">Cadastro de Pessoa Física</a>
+                <a href="{{ url_for('familia_cadastro.cadastrar_familia') }}">Cadastro de Família</a>
+                <a href="{{ url_for('voluntarios_cadastro.cadastrar_voluntarios') }}">Cadastro de Voluntário</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">📋 Listas</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('pessoa_listagem.lista_pessoas') }}">Lista de Pessoas</a>
+                <a href="{{ url_for('familia_listagem.lista_familias') }}">Lista de Famílias</a>
+                <a href="{{ url_for('voluntarios_listagem.listar_voluntarios') }}">Lista de Voluntários</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">📆 Presenças</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('presenca_cadastro.cadastrar_presenca') }}">Adicionar Presença</a>
+                <a href="{{ url_for('presenca_listagem.listar_presencas') }}">Registro de Presenças</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">📝 Atividades</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('atividade_cadastro.cadastrar_atividade') }}">Adicionar Atividade</a>
+                <a href="{{ url_for('atividade_listagem.listar_atividades') }}">Registro de Atividades</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">🎁 Doações</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('doacao_entrada.registrar_entrada') }}">Entrada de Doações</a>
+                <a href="{{ url_for('doacao_saida.registrar_saida') }}">Saída de Doações</a>
+                <a href="{{ url_for('doacao_listagem.listar_doacoes') }}">Registro de Doações</a>
+            </div>
+        </div>
+
+        <div class="dropdown">
+            <span class="dropbtn">📅 Visitas</span>
+            <div class="dropdown-content">
+                <a href="{{ url_for('visitas_cadastro.cadastrar_visita') }}">Marcar Visita</a>
+                <a href="{{ url_for('visitas_listagem.listar_visitas') }}">Registro de Visitas</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 📦 Conteúdo principal -->
+    <main>
+
+        <!-- ✅ Bloco universal para mensagens flash (sucesso ou erro) -->
+        {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, texto in mensagens %}
+                <div class="alerta-{{ 'sucesso' if categoria == 'sucesso' else 'erro' }}">{{ texto }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <!-- 📌 Rodapé -->
+    <footer>
+        Projeto Dignidade — Sistema de Gestão Local | 2025<br>
+        <small>Desenvolvido por Marcelo Barbosa da Silva</small>
+        <span class="link-backup-area">
+            <a href="#" id="fazer-backup" class="link-backup">Fazer Backup</a> /
+            <a href="#" id="executar-backup" class="link-backup">Executar Backup</a>
+        </span>
+    </footer>
+
+    <!-- 🔗 JavaScript base (tema escuro, backup, fonte) -->
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utilidades.js') }}"></script>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* geral */
+
+body.fonte-grande h1 {font-size: 2.7rem; }
+body.fonte-grande h2 {font-size: 1.7em;}
+body.fonte-grande h3 {font-size: 1.2em;}
+body.fonte-grande p {font-size: 1.4em;}
+body.fonte-grande input,
+body.fonte-grande select,
+body.fonte-grande textarea,
+body.fonte-grande button,
+body.fonte-grande label {
+    font-size: 1.2em;
+}
+
+/* Index */
+body.fonte-grande .item, 
+body.fonte-grande .titulo-coluna {
+  font-size: 1.2em;
+}
+
+/* Base */
+body.fonte-grande nav,
+body.fonte-grande nav a,
+body.fonte-grande nav .dropbtn,
+body.fonte-grande nav .dropdown-content a,
+body.fonte-grande #toggle-dark,
+body.fonte-grande #botao-fonte,
+body.fonte-grande footer,
+body.fonte-grande .logo {
+    font-size: 1.2em;
+}
+
+/* Cadastro */
+body.fonte-grande .form-card,
+body.fonte-grande .form-card label,
+body.fonte-grande .form-card input,
+body.fonte-grande .form-card select,
+body.fonte-grande .form-card textarea,
+body.fonte-grande .form-titulo,
+body.fonte-grande .checkbox-termo,
+body.fonte-grande .membro-bloco,
+body.fonte-grande .membro-bloco input,
+body.fonte-grande .membro-bloco select,
+body.fonte-grande .membro-bloco label,
+body.fonte-grande .btn-enviar,
+body.fonte-grande .btn-adicionar,
+body.fonte-grande .btn-limpar,
+body.fonte-grande .link-limpar {
+    font-size: 1.2em;
+}
+
+/* Tabelas */
+body.fonte-grande .titulo-lista {font-size: 2.7em; }
+body.fonte-grande .label-filtro,
+body.fonte-grande .campo-filtro,
+body.fonte-grande .botao-filtro,
+body.fonte-grande .botao-selecionar,
+body.fonte-grande .botao-exportar,
+body.fonte-grande .checkbox-coluna,
+body.fonte-grande .link-editar,
+body.fonte-grande .botao-excluir,
+body.fonte-grande .paginacao a,
+body.fonte-grande .paginacao strong,
+body.fonte-grande .mensagem-vazia,
+body.fonte-grande .formulario-filtro,
+body.fonte-grande .formulario-exportar,
+body.fonte-grande .tabela,
+body.fonte-grande .tabela th,
+body.fonte-grande .tabela td {
+    font-size: 1.2em;
+}
+
+/* Perfil */
+body.fonte-grande .perfil-header {padding: 25px;}
+body.fonte-grande .perfil-dados h2 {font-size: 2rem;}
+body.fonte-grande .perfil-dados li {font-size: 1.3em;}
+
+body.fonte-grande .perfil-foto,
+body.fonte-grande .perfil-foto-extra {
+  width: 180px;
+  height: 180px;
+}
+
+body.fonte-grande .titulo-colapsar {
+  font-size: 1.4em;
+  padding: 12px 18px;
+}
+

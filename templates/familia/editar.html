@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block titulo %}Editar Família{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+
+    <div class="form-titulo">
+        <h2>Editar Família</h2>
+        <p class="subtitulo-form">Atualize os dados da família, incluindo o responsável e seus membros. Campos com * são obrigatórios.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+
+        <!-- Dados do responsável -->
+        <div class="form-card"><label for="responsavel">Responsável pelo domicílio*:</label><input id="responsavel" type="text" name="responsavel" value="{{ familia.responsavel }}" onblur="aplicarCapitalizacao(this)" required></div>
+        <div class="form-card"><label for="documento">Documento do responsável*:</label><input id="documento" type="text" name="documento" value="{{ familia.documento }}" required></div>
+        <div class="form-card"><label for="data_nascimento">Data de nascimento do responsável*:</label><input id="data_nascimento" type="date" name="data_nascimento" value="{{ familia.data_nascimento }}" required></div>
+        <div class="form-card"><label for="contato">Contato*:</label><input id="contato" type="text" name="contato" value="{{ familia.contato }}" required></div>
+        <div class="form-card"><label for="rua_numero">Rua / Número*:</label><input id="rua_numero" type="text" name="rua_numero" value="{{ familia.rua_numero }}" required></div>
+        <div class="form-card"><label for="bairro">Bairro*:</label><input id="bairro" type="text" name="bairro" value="{{ familia.bairro }}" required></div>
+        <div class="form-card"><label for="cidade">Cidade*:</label><input id="cidade" type="text" name="cidade" value="{{ familia.cidade }}" required></div>
+        <div class="form-card"><label for="estado">Estado*:</label><input id="estado" type="text" name="estado" value="{{ familia.estado }}" required></div>
+        <div class="form-card"><label for="observacoes">Observações:</label><textarea id="observacoes" name="observacoes">{{ familia.observacoes }}</textarea></div>
+
+        <!-- Familiares -->
+        <div class="form-card">
+            <label>Familiares:</label>
+            <div id="membros"></div>
+            <button type="button" class="btn-adicionar" onclick="adicionarMembro()">+ Adicionar familiar</button>
+        </div>
+
+        <!-- Ações -->
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar Alterações</button>
+            <a href="{{ url_for('familia_listagem.lista_familias') }}" class="link-limpar">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<!-- Script de preenchimento automático -->
+<script id="familiares-data" type="application/json">
+    {{ familia.membros | default([]) | tojson }}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const dataScript = document.getElementById("familiares-data");
+        if (dataScript) {
+            try {
+                const membros = JSON.parse(dataScript.textContent);
+                if (Array.isArray(membros)) {
+                    membros.forEach((m, i) => {
+                        adicionarMembro(i, m.nome, m.parentesco, m.data_nascimento);
+                    });
+                }
+            } catch (e) {
+                console.warn("Erro ao carregar membros da família:", e);
+            }
+        }
+    });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block titulo %}Registrar Doação de Entrada{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+    <div class="form-titulo">
+        <h2>Registrar Doação de Entrada</h2>
+        <p>Preencha as informações da doação recebida, como tipo, origem e data.</p>
+    </div>
+
+    <form method="POST" autocomplete="off">
+        <div class="form-card">
+            <label for="tipo">Tipo*:</label>
+            <input id="tipo" name="tipo" type="text" value="{{ dados.tipo if dados else '' }}" required>
+        </div>
+
+        <div class="form-card">
+            <label for="origem">Origem*:</label>
+            <input id="origem" name="origem" type="text" value="{{ dados.origem if dados else '' }}" required>
+        </div>
+
+        <div class="form-card">
+            <label for="data">Data*:</label>
+            <input id="data" name="data" type="date" class="data-hoje" value="{{ dados.data if dados else '' }}" required>
+        </div>
+
+        <div class="form-card">
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes">{{ dados.observacoes if dados else '' }}</textarea>
+        </div>
+
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar Doação</button>
+            <a href="#" onclick="document.querySelector('form').reset(); return false;" class="link-limpar">Limpar formulário</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

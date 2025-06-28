@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block titulo %}Lista de Pessoas{% endblock %}
+
+{% block conteudo %}
+<div class="lista-container">
+
+  <h1 class="titulo-lista">Lista de Pessoas Atendidas</h1>
+
+  <form method="GET" id="filtro_form" class="formulario-filtro">
+    <label for="busca" class="label-filtro">Buscar:</label>
+    <input type="text" id="busca" name="busca" class="campo-filtro" value="{{ filtros.busca }}">
+    <input type="hidden" name="ordem" id="ordem" value="{{ filtros.ordem }}">
+    <input type="hidden" name="direcao" id="direcao" value="{{ filtros.direcao }}">
+    <input type="hidden" name="colunas" id="colunas" value="{{ filtros.colunas | join(',') }}">
+    <button type="submit" class="botao-filtro">🔎 Filtrar</button>
+  </form>
+
+  <div class="filtro-colunas">
+    <strong>Colunas visíveis:</strong><br>
+    {% for campo in ["apelido", "documento", "data_nascimento", "idade", "nome_mae", "dependencia", "contato", "endereco", "observacoes", "naturalidade", "tamanho_roupa", "aptidoes", "saude", "alfabetizacao", "termo_imagem", "primeiro_dia"] %}
+      <label class="checkbox-coluna">
+        <input type="checkbox" onchange="toggleColuna('{{ campo }}')" id="check_{{ campo }}" {% if campo in filtros.colunas %}checked{% endif %}>
+        {{ campo.replace('_', ' ').capitalize() }}
+      </label>
+    {% endfor %}
+  </div>
+
+  <form id="form_exportar" method="POST" action="{{ url_for('pessoa_exportar.exportar_excel') }}" class="formulario-exportar">
+    <input type="hidden" name="ids" id="ids_exportar">
+    <input type="hidden" name="colunas" id="colunas_exportar">
+    <button type="button" onclick="selecionarTodos()" class="botao-selecionar">✅ Selecionar todos</button>
+    <button type="button" onclick="exportarParaExcel()" class="botao-exportar">📤 Exportar</button>
+  </form>
+
+  {% if pessoas %}
+  <table id="tabela_pessoas" class="tabela">
+  <thead>
+    <tr>
+      <th class="col-checkbox"></th>
+      <th class="col-nome">
+        <a href="#" onclick="ordenarPor('nome')">
+          Nome {% if filtros.ordem == 'nome' %}{{ '⬆️' if filtros.direcao == "asc" else '⬇️' }}{% endif %}
+        </a>
+      </th>
+      {% for campo in ["apelido", "documento", "data_nascimento", "idade", "nome_mae", "dependencia", "contato", "endereco", "observacoes", "naturalidade", "tamanho_roupa", "aptidoes", "saude", "alfabetizacao", "termo_imagem", "primeiro_dia"] %}
+        <th class="col_{{ campo }} {% if campo not in filtros.colunas %}hidden{% endif %}">
+          <a href="#" onclick="ordenarPor('{{ campo }}')">
+            {{ campo.replace('_', ' ').capitalize() }}
+            {% if filtros.ordem == campo %}{{ '⬆️' if filtros.direcao == "asc" else '⬇️' }}{% endif %}
+          </a>
+        </th>
+      {% endfor %}
+      <th class="col-acoes">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in pessoas %}
+    <tr>
+      <td><input type="checkbox" name="selecionados" value="{{ p.id }}"></td>
+      <td><a href="{{ url_for('pessoa_perfil.perfil', pessoa_id=p.id) }}">{{ p.nome }}</a></td>
+      {% for campo in ["apelido", "documento", "data_nascimento", "idade", "nome_mae", "dependencia", "contato", "endereco", "observacoes", "naturalidade", "tamanho_roupa", "aptidoes", "saude", "alfabetizacao", "termo_imagem", "primeiro_dia"] %}
+        <td class="col_{{ campo }} {% if campo not in filtros.colunas %}hidden{% endif %}">
+          {{ p[campo] if campo in p else "—" }}
+        </td>
+      {% endfor %}
+      <td>
+        <a href="{{ url_for('pessoa_editar.editar_pessoa', pessoa_id=p.id) }}" class="link-editar">Editar</a>
+        /
+        <form method="POST" action="{{ url_for('pessoa_excluir.excluir_pessoa', pessoa_id=p.id) }}" class="form-excluir" onsubmit="return confirm('Deseja excluir esta pessoa?');">
+          <button type="submit" class="botao-excluir">Excluir</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  
+    {% set pagina = filtros.pagina %}
+    {% set total_paginas = filtros.total_paginas %}
+    {% set rota = 'pessoa_listagem.lista_pessoas' %}
+    {% set params = {
+      'busca': filtros.busca,
+      'ordem': filtros.ordem,
+      'direcao': filtros.direcao,
+      'colunas': ','.join(filtros.colunas)
+    } %}
+    {% include "utilidade/paginacao.html" with context %}
+
+  {% else %}
+    <p class="mensagem-vazia">Nenhuma pessoa encontrada.</p>
+  {% endif %}
+</div>
+{% endblock %}

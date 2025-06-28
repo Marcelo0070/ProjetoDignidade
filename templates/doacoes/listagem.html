@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block titulo %}Lista de Doações{% endblock %}
+{% block conteudo %}
+
+<div class="lista-container">
+
+  <h1 class="titulo-lista">Lista de Doações</h1>
+
+  <form method="GET" id="filtro_form" class="formulario-familia">
+    <div class="filtro-linha">
+      <label><strong>Tipo:</strong></label>
+      <input type="text" name="tipo" class="campo-filtro" value="{{ filtros.tipo }}">
+
+      <label><strong>Origem ou Destino:</strong></label>
+      <input type="text" name="origem_destino" class="campo-filtro" value="{{ filtros.origem_destino }}">
+
+      <label><strong>Data de:</strong></label>
+      <input type="date" name="data_inicio" class="campo-filtro" value="{{ filtros.data_inicio }}">
+
+      <label><strong>até:</strong></label>
+      <input type="date" name="data_fim" class="campo-filtro" value="{{ filtros.data_fim }}">
+
+      <input type="hidden" name="ordem" id="ordem" value="{{ filtros.ordem }}">
+      <input type="hidden" name="direcao" id="direcao" value="{{ filtros.direcao }}">
+      <input type="hidden" name="colunas" id="colunas" value="{{ filtros.colunas | join(',') }}">
+
+      <button type="submit" class="botao-filtro">🔎 Filtrar</button>
+    </div>
+  </form>
+
+  <form method="POST" id="form_exportar" action="{{ url_for('doacao_exportar.exportar_excel') }}" class="formulario-exportar">
+    <input type="hidden" name="ids" id="ids_exportar">
+    <input type="hidden" name="colunas" id="colunas_exportar">
+    <button type="button" onclick="selecionarTodos()" class="botao-selecionar">✅ Selecionar todos</button>
+    <button type="button" onclick="exportarParaExcel()" class="botao-exportar">📤 Exportar</button>
+  </form>
+
+  <div class="filtro-colunas">
+    <strong>Colunas visíveis:</strong><br>
+    {% for campo in ["tipo", "origem_destino", "data", "observacoes"] %}
+      <label class="checkbox-coluna">
+        <input type="checkbox" onchange="toggleColuna('{{ campo }}')" id="check_{{ campo }}" {% if campo in filtros.colunas %}checked{% endif %}>
+        {{ campo.replace('_', ' ').capitalize() }}
+      </label>
+    {% endfor %}
+  </div>
+
+  {% for titulo, lista, editar_endpoint in [("Entradas", entradas, 'editar_entrada.editar'), ("Saídas", saidas, 'editar_saida.editar')] %}
+    <h2>{{ titulo }}</h2>
+    <table class="tabela" id="tabela_pessoas">
+      <thead>
+        <tr>
+          <th><input type="checkbox" onclick="selecionarTodos()"></th>
+          {% for campo in ["tipo", "origem_destino", "data", "observacoes"] %}
+            <th class="col_{{ campo }} {% if campo not in filtros.colunas %}hidden{% endif %}">
+              {% if campo in ["tipo", "origem_destino", "data"] %}
+                <a href="#" onclick="ordenarPor('{{ campo }}')">
+                  {{ campo.replace('_', ' ').capitalize() }}
+                  {% if filtros.ordem == campo %}{{ '⬆️' if filtros.direcao == 'asc' else '⬇️' }}{% endif %}
+                </a>
+              {% else %}
+                {{ campo.replace('_', ' ').capitalize() }}
+              {% endif %}
+            </th>
+          {% endfor %}
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for d in lista %}
+        <tr>
+          <td><input type="checkbox" name="selecionados" value="{{ d.id }}"></td>
+          <td class="col_tipo">{{ d.tipo }}</td>
+          <td class="col_origem_destino">{{ d.origem_destino }}</td>
+          <td class="col_data">{{ d.data }}</td>
+          <td class="col_observacoes">{{ d.observacoes or "—" }}</td>
+          <td>
+            <a href="{{ url_for(editar_endpoint, doacao_id=d.id) }}">Editar</a>
+            <form method="POST" action="{{ url_for('doacao_excluir.excluir_doacao', doacao_id=d.id) }}" class="form-excluir" onsubmit="return confirm('Deseja excluir esta doação?');">
+              <button type="submit" class="botao-excluir">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endfor %}
+
+  {% set pagina = filtros.pagina %}
+  {% set total_paginas = filtros.total_paginas %}
+  {% set rota = 'doacao_listagem.listar_doacoes' %}
+  {% set params = {
+    'tipo': filtros.tipo,
+    'origem_destino': filtros.origem_destino,
+    'data_inicio': filtros.data_inicio,
+    'data_fim': filtros.data_fim,
+    'ordem': filtros.ordem,
+    'direcao': filtros.direcao,
+    'colunas': filtros.colunas | join(',')
+  } %}
+  {% include "utilidade/paginacao.html" with context %}
+
+</div>
+
+{% endblock %}
+
+

@@ -1,0 +1,186 @@
+/* 📦 Estrutura geral do formulário */
+form {
+    max-width: 600px;             
+    margin: 20px auto;           
+    padding: 0 16px;             
+}
+
+/* 🧾 Título do formulário com faixa azul e sombra */
+.form-titulo {
+    max-width: 600px;
+    margin: 1rem auto;
+    padding: 0.5rem 1rem 1rem 1rem;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    text-align: left;
+    border-top: 5px solid #1a73e8;
+}
+
+/* 🗂️ Bloco de entrada de dados (cartão) */
+.form-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #d0d0d0;
+}
+
+/* 🏷️ Rótulo dos campos */
+.form-card label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+/* ✏️ Estilo dos campos de entrada (input, select, textarea) */
+.form-card input,
+.form-card select,
+.form-card textarea {
+    width: 100%;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-card input[type="file"] {
+    padding: 0.4rem;
+}
+
+.form-card textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 🧩 Área dos botões do formulário */
+.form-acoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+}
+
+/* 🚀 Botão de envio */
+.btn-enviar {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 18px 50px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-enviar:hover {
+    background-color: #1558b0;
+}
+
+/* 🧽 Link para limpar o formulário */
+.link-limpar {
+    font-size: 16px;
+    color: #1a73e8;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.link-limpar:hover {
+    color: #0d47a1;
+}
+
+/* ✅ Bloco de aceitação do termo de imagem */
+.checkbox-termo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background-color: #f5f8fc;
+    border: 1px solid #c6dafc;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    color: #333;
+}
+
+.checkbox-termo input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+}
+
+/* ➕ Botão para adicionar familiar */
+.btn-adicionar {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-adicionar:hover {
+    background-color: #1558b0;
+    transform: translateY(-1px);
+}
+
+.btn-adicionar:active {
+    transform: scale(0.98);
+}
+
+/* 👪 Bloco individual de familiar */
+.membro-bloco {
+    background-color: #f9fbfd;
+    border: 1px solid #d0dbe8;
+    border-radius: 6px;
+    padding: 0.75rem;
+    margin: 0.75rem auto;
+    max-width: 550px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* 🧾 Título e botão de remoção de familiar */
+.titulo-familiar {
+    margin: 0;
+    color: #1a237e;
+}
+
+.membro-bloco button {
+    font-size: 1.5rem;
+    color: #e53935;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.membro-bloco button:hover {
+    color: #b71c1c;
+}
+
+/* 📋 Campos do familiar */
+.membro-bloco input,
+.membro-bloco select {
+    margin-bottom: 0.75rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}

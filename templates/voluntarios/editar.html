@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block titulo %}Editar Voluntário{% endblock %}
+{% block conteudo %}
+
+<script>
+function capitalizar(texto) {
+    const excecoes = ['da', 'de', 'do', 'das', 'dos'];
+    return texto.split(" ").map(p =>
+        excecoes.includes(p.toLowerCase()) ? p.toLowerCase() : p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()
+    ).join(" ");
+}
+
+function aplicarCapitalizacao(el) {
+    el.value = capitalizar(el.value);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const alerta = document.querySelector(".alerta-sucesso");
+    if (alerta) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(() => {
+            alerta.style.display = "none";
+        }, 8000);
+    }
+});
+</script>
+
+<div class="form-fundo" style="min-height: auto; padding-bottom: 10px;">
+
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+        {% if mensagens %}
+            {% for categoria, texto in mensagens %}
+                <div class="alerta-sucesso">{{ texto }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="form-titulo">
+        <h1>Editar Voluntário</h1>
+        <p>Atualize os dados do voluntário cadastrado.</p>
+    </div>
+
+    <form method="POST">
+        <div class="form-card">
+            <label>Nome completo*:</label>
+            <input type="text" name="nome" value="{{ voluntario.nome }}" onblur="aplicarCapitalizacao(this)" required>
+        </div>
+
+        <div class="form-card">
+            <label>Contato*:</label>
+            <input type="text" name="contato" value="{{ voluntario.contato }}" required>
+        </div>
+
+        <div class="form-card">
+            <label>Data de nascimento:</label>
+            <input type="date" name="data_nascimento" value="{{ voluntario.data_nascimento }}">
+        </div>
+
+        <div class="form-acoes">
+            <button type="submit" class="btn-enviar">Salvar Alterações</button>
+            <a href="{{ url_for('voluntarios_listagem.listar_voluntarios') }}" class="link-limpar">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+

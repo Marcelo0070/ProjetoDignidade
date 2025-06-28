@@ -1,0 +1,75 @@
+/* 🧱 Grid de layout das colunas e blocos */
+.grid-colunas {
+    display: grid; /* Layout em grade */
+    grid-template-columns: repeat(6, 1fr); /* 6 colunas iguais */
+    gap: 25px; /* Espaço entre os itens (linhas e colunas) */
+    justify-items: center; /* Centraliza cada item na célula */
+    align-items: start; /* Alinha os itens ao topo das células */
+    margin-top: 10px ; /* Ajuste fino de posicionamento vertical */
+    margin-bottom: 10px ; /* Ajuste fino de posicionamento vertical */
+}
+
+/* 🧭 Estilo dos títulos fixos da primeira linha do grid */
+.titulo-coluna {
+    margin: 0; /* Remove margem padrão */
+    padding: 6px 10px; /* Espaço interno compacto */
+    width: 80%; /* Mesma largura dos blocos clicáveis */
+    font-size: 20px; /* Texto maior para destaque */
+    line-height: 1.2; /* Altura de linha ajustada */
+    font-weight: bold; /* Negrito */
+    color: #ffffff; /* Texto branco */
+    text-align: center; /* Centraliza o título */
+    background: #062758; /* Fundo azul escuro */
+    border-radius: 10px; /* Bordas arredondadas suaves */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* Sombra leve para destaque */
+}
+
+/* 🎯 Bloco clicável completo como link (<a>) com visual de card */
+a.item {
+    display: block; /* Faz o link se comportar como um bloco */
+    width: 80%; /* Ocupa 80% da largura da célula da grade */
+    background: linear-gradient(to bottom, #4cabf8, #a5d5f7); /* Fundo degradê azul claro */
+    border-radius: 15px; /* Bordas arredondadas suaves */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08); /* Sombra leve para destacar */
+    text-align: center; /* Centraliza o conteúdo interno */
+    padding: 20px 10px; /* Espaçamento interno vertical e horizontal */
+    color: inherit; /* Mantém a cor herdada do contexto */
+    text-decoration: none; /* Remove sublinhado padrão de links */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Animações suaves ao interagir */
+}
+
+/* 🖱️ Efeito visual ao passar o mouse sobre o link/card */
+a.item:hover {
+    transform: scale(1.03); /* Aumenta levemente o tamanho */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra mais forte no hover */
+}
+
+/* 🖱️ Efeito visual de clique pressionado */
+a.item:active {
+    transform: scale(0.97); /* Dá sensação de botão pressionado */
+}
+
+/* 🧭 Estilo ao navegar com Tab (foco por acessibilidade) */
+a.item:focus {
+    background: linear-gradient(to bottom, #42a5f5, #90caf9); /* Mudança de cor no foco */
+    box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.4); /* Borda azul suave */
+    transform: scale(1.02); /* Leve aumento no foco */
+    outline: none; /* Remove borda nativa do navegador */
+}
+
+/* 🔘 Ícone centralizado dentro do card */
+.icone {
+    font-size: 50px; /* Tamanho do ícone */
+    background: #fff; /* Fundo branco circular */
+    width: 90px;
+    height: 90px;
+    line-height: 90px; /* Centralização vertical do conteúdo */
+    border-radius: 50%; /* Forma circular */
+    margin: 0 auto 15px; /* Centraliza horizontalmente e afasta do texto abaixo */
+    transition: background-color 0.2s ease; /* Suaviza a troca de cor */
+}
+
+/* 🎨 Cor de fundo do ícone ao passar o mouse */
+a.item:hover .icone {
+    background-color: #0d47a1; /* Azul escuro no hover */
+}

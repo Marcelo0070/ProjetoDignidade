@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block titulo %}Editar Atividade{% endblock %}
+{% block conteudo %}
+
+<div class="form-fundo">
+  <div class="form-titulo">
+    <h2>Editar Atividade</h2>
+    <p>Atualize as informações da atividade e seus participantes.</p>
+  </div>
+
+  <form method="POST" autocomplete="off">
+
+    <!-- Informações da atividade -->
+    <div class="form-card">
+      <label for="data">Data da atividade*:</label>
+      <input id="data" name="data" type="date" value="{{ dados.data }}" required>
+    </div>
+
+    <div class="form-card">
+      <label for="atividade">Nome da atividade*:</label>
+      <input id="atividade" name="atividade" type="text" value="{{ dados.atividade }}" required>
+    </div>
+
+    <div class="form-card">
+      <label for="tema">Tema abordado:</label>
+      <input id="tema" name="tema" type="text" value="{{ dados.tema }}">
+    </div>
+
+    <div class="form-card">
+      <label for="responsavel">Responsável*:</label>
+      <input id="responsavel" name="responsavel" type="text" value="{{ dados.responsavel }}" required onblur="capitalizar(this)">
+    </div>
+
+    <!-- Participantes -->
+    <div class="form-card">
+      <label>Adicionar participante:</label>
+      <div style="display: flex; gap: 8px; align-items: center; position: relative;">
+        <input type="text" id="beneficiario" placeholder="Digite o nome..." autocomplete="off">
+        <button type="button" id="btn-adicionar" class="btn-adicionar">➕</button>
+        <ul id="sugestoes_beneficiario" class="sugestoes"></ul>
+      </div>
+      <input type="hidden" id="beneficiario_id">
+      <input type="hidden" id="beneficiario_tipo">
+    </div>
+
+    <div class="form-card">
+      <label>Lista de participantes:</label>
+      <table id="lista_presenca" class="tabela">
+        <thead>
+          <tr><th>Nome</th><th>Tipo</th><th>Ação</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <input type="hidden" id="presentes_json" name="participantes_json">
+    </div>
+
+    <div style="margin-bottom: 5px; text-align: right;">
+      <a href="#" onclick="limparListaPresenca(); return false;" class="link-limpar">Limpar lista</a>
+    </div>
+
+    <!-- Observações -->
+    <div class="form-card">
+      <label for="observacoes">Observações:</label>
+      <textarea id="observacoes" name="observacoes">{{ dados.observacoes }}</textarea>
+    </div>
+
+    <!-- Ações -->
+    <div class="form-acoes">
+      <button type="submit" class="btn-enviar">Salvar Alterações</button>
+      <a href="{{ url_for('comum.home') }}" class="link-limpar">Cancelar</a>
+    </div>
+  </form>
+</div>
+
+<!-- Participantes JSON para JS -->
+<script id="participantes-data" type="application/json">
+  {{ participantes | default([]) | tojson }}
+</script>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  configurarAutocompleteBeneficiario({
+    inputId: "beneficiario",
+    sugestoesId: "sugestoes_beneficiario",
+    campoId: "beneficiario_id",
+    campoTipo: "beneficiario_tipo"
+  });
+
+  document.getElementById("btn-adicionar").addEventListener("click", () => {
+    adicionarPresenca({
+      nome: document.getElementById("beneficiario").value,
+      id: document.getElementById("beneficiario_id").value,
+      tipo: document.getElementById("beneficiario_tipo").value
+    });
+
+    document.getElementById("beneficiario").value = "";
+    document.getElementById("beneficiario_id").value = "";
+    document.getElementById("beneficiario_tipo").value = "";
+    document.getElementById("sugestoes_beneficiario").innerHTML = "";
+  });
+
+  // Carrega participantes existentes
+  try {
+    const json = document.getElementById("participantes-data").textContent;
+    const lista = JSON.parse(json);
+    if (Array.isArray(lista)) {
+      lista.forEach(p => adicionarPresenca(p));
+    }
+  } catch (e) {
+    console.warn("Erro ao carregar participantes:", e);
+  }
+});
+</script>
+{% endblock %}
+
+

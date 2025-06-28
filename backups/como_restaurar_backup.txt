@@ -1,0 +1,17 @@
+⚠️ ATENÇÃO
+
+Para restaurar um backup manualmente, siga os passos:
+
+1. Feche completamente o sistema Projeto Dignidade. Se tiver dificuldades, pressione Ctrl + Shift + Esc, vá na aba "Detalhes", localize "ProjetoDignidade.exe", clique com o botão direito e escolha "Finalizar processo".
+
+2. Acesse a pasta 'backups' (que será aberta automaticamente agora).
+
+3. Escolha uma das pastas com o nome: backup_YYYY-MM-DD_HH-MM-SS
+
+4. Copie o arquivo 'banco.db' e a pasta 'static/' dessa pasta e cole na pasta principal do sistema, substituindo os arquivos existentes.
+
+5. Após isso, reabra o sistema normalmente.
+
+🔁 Dica: Abrindo a pasta 'backups' dentro da pasta do sistema, você pode escolher o backup e copiar manualmente para a pasta original, sem o sistema estar em execução. Isso evita erros de substituição.
+
+⚠️ Todos os dados atuais serão perdidos ao fazer isso!

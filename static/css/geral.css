@@ -1,0 +1,79 @@
+/* 🌐 Estilo base para toda a página */
+body {
+    margin: 0; /* Remove margens padrão do navegador */
+    font-family: Arial, sans-serif; /* Define a fonte principal */
+    background-color: #ffffff; /* Cor de fundo de fallback (branco) */
+    color: #333; /* Cor padrão do texto (cinza escuro) */
+    background: linear-gradient(to bottom, #5d95c2, #baddf7); /* Fundo em gradiente azul claro */
+    font-size: 1.15em; /* Aumenta ligeiramente o tamanho base da fonte */
+}
+
+/* 🔳 Container que agrupa logo e título no header */
+.bloco-esquerda {
+    display: flex; /* Organiza os elementos lado a lado */
+    align-items: center; /* Alinha verticalmente ao centro */
+    gap: 10px; /* Espaço entre os elementos internos (logo e texto) */
+}
+
+/* 🏷️ Estilo do título principal */
+h1 {
+    color: #fff; /* Texto branco */
+    font-size: 2.25em; /* Tamanho grande para destaque */
+    margin-bottom: 5px; /* Pequeno espaço abaixo do título */
+    text-shadow: 
+        -1px -1px 0 #000,  /* Sombra preta para contorno superior esquerdo */
+         1px -1px 0 #000,  /* Sombra preta para contorno superior direito */
+        -1px  1px 0 #000,  /* Sombra preta para contorno inferior esquerdo */
+         1px  1px 0 #000;  /* Sombra preta para contorno inferior direito */
+    /* Esse efeito de sombra dá profundidade e contraste no fundo claro ou colorido */
+}
+
+h2 {
+    font-size: 1.3em; 
+    font-weight: bold;
+    margin-bottom: 0.2em; 
+    color: #202124;
+}
+
+/* 📝 Estilo para subtítulos e descrições */
+p {
+    font-size: 1em; /* Tamanho de fonte médio para leitura clara */
+    margin-top: 0; /* Remove o espaçamento superior padrão */
+}
+
+/* 📌 Títulos de seção ou blocos (ex: cards ou menus) */
+h3 {
+    color: #053d91; /* Azul escuro para contraste e destaque */
+    margin-bottom: 10px; /* Espaço inferior para separar de outros elementos */
+}
+
+/* 🔍 Lista de sugestões para autocomplete */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.sugestoes {
+    list-style: none;             /* Remove marcadores da lista */
+    padding: 0;                   /* Remove espaçamento interno */
+    max-height: 150px;            /* Altura máxima com scroll */
+    overflow-y: auto;             /* Ativa rolagem vertical se necessário */
+    position: absolute;           /* Posicionamento flutuante abaixo do input */
+    top: 100%;
+    background: white;            /* Fundo branco para contraste */
+    width: 100%;                  /* Ocupa toda a largura do input */
+    z-index: 999;                 /* Fica acima de outros elementos */
+    border: 1px solid #ccc;       /* Borda discreta para separação visual */
+    border-radius: 4px;           /* (Opcional) Bordas arredondadas */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* (Opcional) Leve sombra para destaque */
+}
+
+/* 🖱️ Estilo de cada item da lista */
+.sugestoes li {
+    padding: 6px 10px;            /* Espaçamento interno para legibilidade */
+    cursor: pointer;             /* Cursor de clique */
+}
+
+/* 🎯 Efeito visual ao passar o mouse */
+.sugestoes li:hover {
+    background-color: #f0f0f0;   /* Destaque sutil no hover */
+}

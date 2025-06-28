@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Página Inicial{% endblock %}
+
+{% block conteudo %}
+
+<!-- 🧩 CSS Especifico -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+
+<div class="secao grid-colunas">
+
+    <!-- 🔝 Cabeçalho do Grinds -->
+    <h3 class="titulo-coluna">Cadastro</h3>
+    <h3 class="titulo-coluna">Listas</h3>
+    <h3 class="titulo-coluna">Presenças</h3>
+    <h3 class="titulo-coluna">Atividade</h3>
+    <h3 class="titulo-coluna">Doações</h3>
+    <h3 class="titulo-coluna">Visitas</h3>
+
+    <!-- 📦 Itens/Blocos clicaveis -->
+    <a class="item" href="{{ url_for('pessoa_cadastro.cadastrar_pessoa') }}">
+        <div class="icone">👤</div><h3>Cadastro de Pessoa</h3>
+    </a>
+    <a class="item" href="{{ url_for('pessoa_listagem.lista_pessoas') }}">
+        <div class="icone">📋</div><h3>Lista de Pessoas</h3>
+    </a>
+    <a class="item" href="{{ url_for('presenca_cadastro.cadastrar_presenca') }}">
+        <div class="icone">✅</div><h3>Adicionar Presença</h3>
+    </a>
+    <a class="item" href="{{ url_for('atividade_cadastro.cadastrar_atividade') }}">
+        <div class="icone">📝</div><h3>Adicionar Atividade</h3>
+    </a>
+    <a class="item" href="{{ url_for('doacao_entrada.registrar_entrada') }}">
+        <div class="icone">➕</div><h3>Entrada de Doações</h3>
+    </a>
+    <a class="item" href="{{ url_for('visitas_cadastro.cadastrar_visita') }}">
+        <div class="icone">📅</div><h3>Marcar Visita</h3>
+    </a>
+    <a class="item" href="{{ url_for('familia_cadastro.cadastrar_familia') }}">
+        <div class="icone">👪</div><h3>Cadastro de Família</h3>
+    </a>
+    <a class="item" href="{{ url_for('familia_listagem.lista_familias') }}">
+        <div class="icone">👨‍👩‍👧‍👦</div><h3>Lista de Famílias</h3>
+    </a>
+    <a class="item" href="{{ url_for('presenca_listagem.listar_presencas') }}">
+        <div class="icone">📅</div><h3>Registro de Presenças</h3>
+    </a>
+    <a class="item" href="{{ url_for('atividade_listagem.listar_atividades') }}">
+        <div class="icone">📂</div><h3>Registro de Atividades</h3>
+    </a>
+    <a class="item" href="{{ url_for('doacao_saida.registrar_saida') }}">
+        <div class="icone">➖</div><h3>Saída de Doações</h3>
+    </a>
+    <a class="item" href="{{ url_for('visitas_listagem.listar_visitas') }}">
+        <div class="icone">📖</div><h3>Registro de Visitas</h3>
+    </a>
+    <a class="item" href="{{ url_for('voluntarios_cadastro.cadastrar_voluntarios') }}">
+        <div class="icone">🙋</div><h3>Cadastro de Voluntário</h3>
+    </a>
+    <a class="item" href="{{ url_for('voluntarios_listagem.listar_voluntarios') }}">
+        <div class="icone">🤝</div><h3>Lista de Voluntários</h3>
+    </a>
+    <a class="item" href="{{ url_for('doacao_listagem.listar_doacoes') }}">
+        <div class="icone">📦</div><h3>Registro de Doações</h3>
+    </a>
+
+</div>
+
+{% endblock %}

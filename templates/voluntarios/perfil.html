@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil do Voluntário</title>
+</head>
+<body>
+    <h1>Perfil de {{ voluntario.nome }}</h1>
+
+    <p><strong>Telefone:</strong> {{ voluntario.telefone or "—" }}</p>
+    <p><strong>Função:</strong> {{ voluntario.funcao or "—" }}</p>
+    <p><strong>Disponibilidade:</strong> {{ voluntario.disponibilidade or "—" }}</p>
+    <p><strong>Observações:</strong> {{ voluntario.observacoes or "—" }}</p>
+
+    <p>
+        <a href="{{ url_for('voluntario_editar.editar_voluntario', voluntario_id=voluntario.id) }}">
+            ✏️ Editar dados do voluntário
+        </a>
+    </p>
+
+    <p>
+        <a href="{{ url_for('visitas_nova.nova_visita') }}?responsavel={{ voluntario.nome | urlencode }}">
+            ➕ Agendar nova visita com {{ voluntario.nome }}
+        </a>
+    </p>
+
+    <hr>
+
+    <h2>Visitas Realizadas</h2>
+    {% if visitas %}
+        <table border="1" cellpadding="6">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Pessoa Atendida</th>
+                    <th>Endereço</th>
+                    <th>Observações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for v in visitas %}
+                <tr>
+                    <td>{{ v[1] }}</td>
+                    <td>{{ v[4] }}</td>
+                    <td>{{ v[2] or "—" }}</td>
+                    <td>{{ v[3] or "—" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Este voluntário ainda não realizou visitas registradas.</p>
+    {% endif %}
+
+    <br>
+    <a href="{{ url_for('voluntario_listagem.lista_voluntarios') }}">Voltar à Lista</a>
+</body>
+</html>
